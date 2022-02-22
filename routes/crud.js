@@ -52,17 +52,22 @@ router.post("/pokemon", (req, res) => {
     
   });
 
-
-  /*router.get('/search', (req, res) => {
-
-    let {type, name } = req.query,
-
-    const filteredArray = data.filter((currentElement) => {
-        return currentElement.type.includes(values(req))
-    })
-    return res.status(200).json(filteredArray)
-  });*/
+  router.get("/search", (req, res) => {
+    if (Object.keys(req.query)[0] === "name") {
+      const foundedPokemon = data.filter((currentPokemon) => {
+        return currentPokemon.name.includes(req.query.name);
+      });
+      return res.status(200).json(foundedPokemon);
+    } else if (Object.keys(req.query)[0] === "types") {
+      const foundedPokemon = data.filter((currentPokemon) => {
+        return currentPokemon.types.includes(req.query.types);
+      });
   
+      return res.status(200).json(foundedPokemon);
+    }
+  
+    return res.status(400).json({ msg: "Mande a query direito, fdp!" });
+  });
 
  
 module.exports = router;
